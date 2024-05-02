@@ -1,12 +1,11 @@
 ---
 title: "Spatio-temporal Bayesian models for environmental epidemiology"
-subtitle: "Methods and examples"
-author: Marta Blangiardo
+author: Marta Blangiardo and Garyfallos Konstantinoudis
 institute: "[Environment and Health Statistics group](https://www.envstats.org/) | Imperial College London"
 params: 
-   conference: "EMS 2023"
-   location: "Warsaw University"
-   date: 7th July 2023
+   conference: "MRC Health Collaboration with Helmholtz Centres"
+   location: "London"
+   date: 16 May 2024
    short_title: "Spatio-temporal Bayesian models for environmental epidemiology"
 output:    
   xaringan::moon_reader: 
@@ -52,7 +51,7 @@ xaringanExtra::use_panelset()
 #xaringanExtra::use_freezeframe()
 
 # Defines the path to the file with the .bib entries (in case there are references)
-#bibfile=RefManageR::ReadBib("~/Dropbox/Conferences-Talks/EMS2023/refs.bib",check = FALSE)
+bibfile=RefManageR::ReadBib("C:/users/magb/Dropbox/Conferences-Talks/EMS2023/refs.bib",check = FALSE)
 ```
 class: title-slide
 
@@ -72,7 +71,7 @@ class: title-slide
 
 `r vspace("20px")`
 
-`r include_fig("LogoMRC.png")`
+`r include_fig("MRC-Centre-Logo.png", width="30%")`
 
 ---
 
@@ -80,7 +79,7 @@ layout: true
 
 .my-footer[ 
 .alignleft[ 
-&nbsp; &copy; Marta Blangiardo
+&nbsp; &copy; Blangiardo \& Konstantinoudis
 ]
 .aligncenter[
 `r rmarkdown::metadata$params$short_title` 
@@ -112,39 +111,16 @@ pre code {
 }
 </style>
 
+
 ---
 
+# Data/modelling/challenges in environmental epidemiology
 
-
-# Environmental Epidemiology
-
-- **Epidemiology**: The study of the distribution, causes and control of diseases in human population.
-`r vspace("20px")`
--  Disease risk depends on the classic epidemiological trio of person (in terms of genetics and behaviour), place and time.
-`r vspace("20px")`
-- Environmental epidemiology focuses on linking .red[environmental hazards (exposures) to health outcomes]. 
+`r include_fig("Areas.png",width="60%")`
 
 `r vspace("20px")`
 
 --
-
-Two main ingredients
-
-`r vspace("10px")`
-
-  - Environmental exposure
-  
-  $\Rightarrow$ a continuous field over the study area.
-
-`r vspace("10px")`
-
-  - Health outcomes
-
-  $\Rightarrow$ cohort / administrative data.
-
---
-
-`r vspace("20px")`
 
 Study designs typically used:
 `r vspace("10px")`
@@ -154,15 +130,15 @@ Study designs typically used:
 `r vspace("10px")`
   3. Time-series studies - Focus on short-term effects (aggregated data)
 
---
-
+DO WE WANT TO PUT SOMETHING ON SEMI-ECOLOGICAL STUDIES TOO?
+ 
 `r vspace("10px")`
 
 .center[.red[.large[Spatial and temporal dependencies are key.]]]
 
 ---
 
-# Why accounting for spatial and temporal dependencies is important
+# Accounting for spatial and temporal dependencies
 
 .center[.content-box-blue[
 **First law of geography** (W. Tobler, 1970): everything is related to everything else, but near things are more related than distant things
@@ -191,21 +167,18 @@ $\rightarrow$ Do we want to evaluate temporal trends for each area?
 
 $\rightarrow$ Spatial / time series regression.
 
----
-# Data/modelling/challenges in environmental epidemiology
-
-`r include_fig("Areas.png",width="60%")`
-
-`r vspace("20px")`
 
 --
 
-In this talk
+`r vspace("20px")`
+
+In this talk we are going to focus on
+
 `r vspace("10px")`
   - Wastewater modelling and COVID-19 prevalence (space-time geostatistical model; uncertainty propagation; data integration)
 `r vspace("10px")`
-  - Temperature and COPD hospitalisations (space-time areal model; dose-response)
-  
+  - Temperature and COPD hospitalisations (semi-ecological study; space-time effect; non linear dose-response)
+
 ---
 
 name: WBE
@@ -278,16 +251,6 @@ concentration over a spatially continuous domain.
 
 - Develop a statistical model to estimate viral concentration in wastewater at fine spatio-temporal resolutions covering the whole of England
 
----
-
-# Modelling spatial data
-
-- **Point-referenced data**: the exact location of the occurrences is known
-  -  can be collected through specialized survey / monitoring network
-  - if locations are **fixed** (monitoring stations, postcodes in an area) and the variable of interest is measured at each location (e.g. presence/absence of cases, pollution concentrations)
-  
-  $\Rightarrow$ .red[geostatistical framework.]
-
 --
 
 - We want to .red[reconstruct a latent spatial (temporal) surface] $\class{red}{\mathbf{S}}$ .red[from a finite set of noisy observations and their spatial (temporal) location.]
@@ -298,37 +261,6 @@ concentration over a spatially continuous domain.
 surface (together with associated uncertainty) at locations where
 there are no observations.
 
---
-
-`r vspace("20px")`
-
-.center[The common framework to geostatistical models is that of .red[**Gaussian
-random fields**.]]
-
-`r vspace("70px")`
-
----
-
-# Gaussian random fields
-
-- A spatial process is a Gaussian field if $\left(y(\bm s_1),\ldots, y(\bm s_n)\right)$ follows a multivariate Normal distribution with mean $\bm \mu=\left(\mu(\bm s_{1}), \ldots, \mu(\bm s_{n})\right)$ and spatially structured covariance matrix $\bm \Sigma$. 
-
---
-
-- The spatial process is called .red[second-order stationary] if 
-
-(i) $\bm \mu$ is constant (i.e. $\mu(\bm s_{i}) = \mu$ for each $i$) 
-
-(ii) the spatial covariance function depends only on the distance vector $(\bm s_{i}-\bm s_{j})$. 
-
---
-
-- A stationary process is .red[isotropic] if the covariance does not depend on the direction but just on the Euclidean distance  $||\bm s_{i}-\bm s_{j}|| \in \mathbb{R}$.
-
---
-
-- Several functions are available for the spatial covariance function (eg exponential,Mat&eacute;rn, spherical, etc.) parameterized by some parameters (eg spatial variance, range, etc.).
-
 ---
 
 # Data
@@ -337,28 +269,14 @@ random fields**.]]
 
 
 .pull-left[
-`r include_fig("PopCoverage.png", width="100%", title="% pop coverage")`
+`r include_fig("PopCoverage.png", width="50%", title="% pop coverage")`
 .center[Percentage population coverage]
 ]
 
 .pull-right[
-`r include_fig("STW.png", width="61%", title="Location of STWs and their catchment areas")`
+`r include_fig("STW.png", width="30%", title="Location of STWs and their catchment areas")`
 .center[Location of STWs and their catchment areas]
 ]
-
----
-
-# Data
-
-- At each site three to four samples were collected per week between 1 June 2021 to 30 March 2022. 
-
---
-`r vspace("20px")`
-
-- We consider the weekly average of flow-normalised viral concentration measurements reported as the number of SARS-CoV-2 N1 gene copies per litre of wastewater (gc/L), obtained through reverse transcriptase quantitative polymerase chain reaction (RT-qPCR) analysis of the wastewater samples.
-
---
-`r vspace("20px")`
 
 - We also include socio-demographic, land use covariates and wastewater genomic data:
 
@@ -371,220 +289,35 @@ random fields**.]]
   5. Age structure (ONS, 2019)
   6. Percentage coverage of the SARS-CoV-2 genome in the sample
   7. Single-Nucleotide Polymorphism (SNP) data in the sample
-
+  
 ---
 
 # Statistical model
 
-.content-box-green[The model should 
-- quantify the relationship between the weekly viral concentration in wastewater samples at the STW catchment area level and the set of covariates 
-- predict weekly viral concentration at any chosen spatial resolution, together with the associated predictive uncertainty.]
+- Geospatial model where the latent mean concentration at monitoring site includes
+1. Covariates
+2. Regional effect
+3. Temporal trend 
+4. Spatio-temporal random effect, modelling the deviation from the national trend with correlation in space 
 
 `r vspace("20px")`
-
-### Model structure
-
-The log-transformed number of gene copies per liter at catchment area $i=1, \ldots, 303$ and week $t=1,\ldots, 44$ is modelled as:
-
-$$y_{it} \sim \text{Normal}(\mu_{it}, \sigma^2_y)$$
-
-with $\sigma^2_y$ as the measurement error variance. For the latent mean concentration $\mu_{it}$ we specify a linear model:
-
-$$\mu_{it} = \alpha_{region_{g_i}} + \bm{x}_i \bm{\beta} +  u_i + v_t + z_{it}$$
-
-`r vspace("60px")`
-
-.small[Li et al. A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic, Env Int 172 (2023)]
----
-
-count:false
-
-# Statistical model
-
-.content-box-green[The model should 
-- quantify the relationship between the weekly viral concentration in wastewater samples at the STW catchment area level and the set of covariates 
-- predict weekly viral concentration at any chosen spatial resolution, together with the associated predictive uncertainty.]
-
-`r vspace("20px")`
-
-### Model structure
-
-The log-transformed number of gene copies per liter at catchment area $i=1, \ldots, 303$ and week $t=1,\ldots, 44$ is modelled as:
-
-$$y_{it} \sim \text{Normal}(\mu_{it}, \sigma^2_y)$$
-
-with $\sigma^2_y$ as the measurement error variance. For the latent mean concentration $\mu_{it}$ we specify a linear model:
-
-$$\mu_{it} ={\color{red}{\alpha_{region_{g_i}}}} + \bm{x}_i \bm{\beta} +  u_i + v_t + z_{it}$$
-
-- $\color{red}{\alpha_{region_{g_i}}}$: region specific intercept, modelled as exchangeable
-
-
-`r vspace("20px")`
-
-.small[Li et al. A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic, Env Int 172 (2023)]
-
----
-
-count: false
-
-# Statistical model
-
-.content-box-green[The model should 
-- quantify the relationship between the weekly viral concentration in wastewater samples at the STW catchment area level and the set of covariates 
-- predict weekly viral concentration at any chosen spatial resolution, together with the associated predictive uncertainty.]
-
-`r vspace("20px")`
-
-### Model structure
-
-The log-transformed number of gene copies per liter at catchment area $i=1, \ldots, 303$ and week $t=1,\ldots, 44$ is modelled as:
-
-$$y_{it} \sim \text{Normal}(\mu_{it}, \sigma^2_y)$$
-
-with $\sigma^2_y$ as the measurement error variance. For the latent mean concentration $\mu_{it}$ we specify a linear model:
-
-$$\mu_{it} = \alpha_{region_{g_i}} + {\color{red}\bm{x}_i \bm{\beta}} +  u_i + v_t + z_{it}$$
-
-- $\color{red}{\bm{x}_i \bm{\beta}}$: vector of covariates and their effects
-
-
-`r vspace("20px")`
-
-.small[Li et al. A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic, Env Int 172 (2023)]
-
----
-
-count: false
-
-# Statistical model
-
-.content-box-green[The model should 
-- quantify the relationship between the weekly viral concentration in wastewater samples at the STW catchment area level and the set of covariates 
-- predict weekly viral concentration at any chosen spatial resolution, together with the associated predictive uncertainty.]
-
-`r vspace("20px")`
-
-### Model structure
-
-The log-transformed number of gene copies per liter at catchment area $i=1, \ldots, 303$ and week $t=1,\ldots, 44$ is modelled as:
-
-$$y_{it} \sim \text{Normal}(\mu_{it}, \sigma^2_y)$$
-
-with $\sigma^2_y$ as the measurement error variance. For the latent mean concentration $\mu_{it}$ we specify a linear model:
-
-$$\mu_{it} = \alpha_{region_{g_i}} + \bm{x}_i \bm{\beta} +  {\color{red}u_i} + v_t + z_{it}$$
-
-- $\color{red}{u_i}$: spatial random effect with an exchangeable prior 
-
-
-`r vspace("20px")`
-
-.small[Li et al. A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic, Env Int 172 (2023)]
-
----
-
-
-count: false
-
-# Statistical model
-
-.content-box-green[The model should 
-- quantify the relationship between the weekly viral concentration in wastewater samples at the STW catchment area level and the set of covariates 
-- predict weekly viral concentration at any chosen spatial resolution, together with the associated predictive uncertainty.]
-
-`r vspace("20px")`
-
-### Model structure
-
-The log-transformed number of gene copies per liter at catchment area $i=1, \ldots, 303$ and week $t=1,\ldots, 44$ is modelled as:
-
-$$y_{it} \sim \text{Normal}(\mu_{it}, \sigma^2_y)$$
-
-with $\sigma^2_y$ as the measurement error variance. For the latent mean concentration $\mu_{it}$ we specify a linear model:
-
-$$\mu_{it} = \alpha_{region_{g_i}} + \bm{x}_i \bm{\beta} +  u_i + {\color{red}v_t} + z_{it}$$
-
-- $\color{red}{v_t}$: temporal random effect modelled with first order random walk
-
-
-`r vspace("20px")`
-
-.small[Li et al. A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic, Env Int 172 (2023)]
-
----
-
-# Spatio-temporal random effect
-
-$$\mu_{it} = \alpha_{region_{g_i}} + \bm{x}_i \bm{\beta} +  u_i + v_t + {\color{red}z_{it}}$$
-
-- $\color{red}{z_{it}}$: spatio-temporal random effect, modelled as a temporal autoregressive structure with spatially correlated innovations, similar to `r Citet(bibfile, "cameletti2011comparing")`:
-\begin{align}
-t = 1 \qquad \boldsymbol{z}_t &\sim \text{Normal}(0,\Sigma_{z})\\
-t > 1 \qquad \boldsymbol{z}_t &\sim \text{Normal}(\rho\boldsymbol{z}_{t-1},\Sigma_{z})
-\end{align}
-with $\rho$ as the temporal autoregressive coefficient. 
-
---
-
-The  $\Sigma_{z}$ matrix represents the spatial structure and is defined using a Mat&eacute;rn covariance function.
-
-$$\text{Cov}(\bm{z}_i,\bm{z}_s)\ = \frac{\sigma^2_{z}}{\Gamma(\lambda)2^{\lambda-1}}(\kappa ||\bm{z}_i - \bm{z}_s||)^{\lambda}K_{\lambda}(\kappa ||\bm{z}_i - \bm{z}_s||)$$
-
-where $\Gamma(\lambda)$ is the gamma function, $K_{\lambda}$ is the modified Bessel function of second kind with order $\lambda$. The parameter $\kappa>0$ controls the range $r=\sqrt{8\lambda}/\kappa$ and indicate the distance where the spatial correlation is close to 0.1. 
-
-<!-- k is scaling parameter, while lambda is the parameter of the Bessel function which governs the degree of smoothing (typically fixed)
--->
----
-
-# Spatial prediction
-
-- We consider the population-weighted centroids of all the 32,844 Lower Super Output Areas (LSOAs) in England, these being the smallest areas 
-for which all the covariates are available. 
-
-Given observed data $\boldsymbol{y}$ we sample $\boldsymbol{y}^\prime$, the viral concentrations at the LSOA centroids over 44 weeks, from the posterior predictive distribution:
-\begin{align}
-\pi(\boldsymbol{y}^\prime \mid \boldsymbol{y}) &= \int p(\boldsymbol{y}^\prime \mid \boldsymbol{\theta}) p(\boldsymbol{\theta} \mid \boldsymbol{y}) d\boldsymbol{\theta}\\
-\boldsymbol{\theta} &= (\alpha, \boldsymbol{\beta}, \boldsymbol{v}, \boldsymbol{g}, \boldsymbol{u}, \boldsymbol{z}, \sigma^2_y)\ .
-\end{align}
 
 
 --
 
-`r vspace("30px")`
+- Spatial prediction
 
+1. at the population-weighted centroids of all the 32,844 Lower Super Output Areas (LSOAs) in England 
+2. Aggregated at the Lower Tier Local Authority level 
 
-The posterior predictive distribution at the LSOA centroids can be combined to return corresponding predictions at coarser geographical scales, as required. 
+--
 
-  - Here we consider all the Lower Tier Local Authorities in England and average the corresponding LSOA values, weighted by the population in each LSOA.
+- Bayesian approach implemented in R-INLA 
 
+--
 
-<!--
-- Implemented in R-INLA 
--->
+- The posterior predictive distribution is used to detect increases in viral concentration over two consecutive weeks
 
----
-
-
-# Detection of areas at increased risk of outbreaks
-
-We used the posterior predictive distribution to detect increases in the wastewater viral concentration. For each LTLA $(l=1,\ldots,L)$ an increase in viral concentration over two consecutive weeks is the event (E):
-\begin{eqnarray}
-E = I(\mu_{lt} > \mu_{l(t-1)} > \mu_{l(t-2)})
-\end{eqnarray}
-where $I(\cdot)$ is the indicator function.
-
-`r vspace("20px")`
-A high predictive probability, ${\rm Prob}(E)>c$ for a pre-specified threshold $c$, would then trigger a warning of a potential outbreak. This approach has been used for public health surveillance in both high-income (Diggle et al, 2005) and low-to-middle-income (Diggle et al., 2007) countries. 
-
-`r vspace("250px")`
-
-.small[
-Diggle et al. Point process methodology for on-line spatio-temporal disease surveillance, Environmetrics, 16 (2005): 423-434
-
-Diggle et al. Spatial modelling and prediction of loa loa risk: decision making under uncertainty, Ann. Trop. Med. Parasitol., 101 (2007): 499-509
-
-]
 ---
 
 #Interactive dashboard
@@ -599,7 +332,7 @@ knitr::include_url("https://b-rowlingson.gitlab.io/wwatlas/", height="100%")
 
 ---
 
-# Wastewater viral concentration and COVID-19 prevalence
+# Combining wastewater viral concentration and COVID-19 prevalence
 
 .pull-left[
 - Several studies have evaluated the relationship between viral load in
@@ -618,8 +351,6 @@ Shah et al. Wastewater surveillance to infer COVID-19 transmission: A systematic
 
 Proverbio et al. Model-based assessment of COVID-19 epidemic dynamics by wastewater analysis. Science of the Total Environment 827 (2022): 154235.]
 ]
-
-
 
 .pull-right[`r include_fig("fig6.jpg", width="50%")`]
 
