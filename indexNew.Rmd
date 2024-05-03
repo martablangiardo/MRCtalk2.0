@@ -79,7 +79,7 @@ layout: true
 
 .my-footer[ 
 .alignleft[ 
-&nbsp; &copy; Blangiardo \& Konstantinoudis
+&nbsp; &copy; Blangiardo & Konstantinoudis
 ]
 .aligncenter[
 `r rmarkdown::metadata$params$short_title` 
@@ -170,7 +170,7 @@ $\rightarrow$ Spatial / time series regression.
 
 --
 
-`r vspace("20px")`
+`r vspace("40px")`
 
 In this talk we are going to focus on
 
@@ -244,7 +244,7 @@ measurements of SARS-CoV-2 RNA from wastewater are obtained.
 spatially resolved model to estimate wastewater viral
 concentration over a spatially continuous domain.
 
-`r vspace("40px")`
+`r vspace("60px")`
 --
 
 ## Aim
@@ -253,7 +253,11 @@ concentration over a spatially continuous domain.
 
 --
 
-- We want to .red[reconstruct a latent spatial (temporal) surface] $\class{red}{\mathbf{S}}$ .red[from a finite set of noisy observations and their spatial (temporal) location.]
+`r vspace("20px")`
+
+- We want to reconstruct a latent spatial (temporal) surface $\mathbf{S}$ from a finite set of noisy observations and their spatial (temporal) location.
+
+--
 
 `r vspace("20px")`
 
@@ -267,21 +271,13 @@ there are no observations.
 
 - SARS-CoV-2 viral concentrations obtained from the 303 Sewage Treatment Works (STWs) for which the data were publicly available from the Environmental Monitoring for Health Protection (EMHP) wastewater surveillance programme.
 
-
 .pull-left[
-`r include_fig("PopCoverage.png", width="50%", title="% pop coverage")`
-.center[Percentage population coverage]
-]
-
-.pull-right[
-`r include_fig("STW.png", width="30%", title="Location of STWs and their catchment areas")`
+`r include_fig("STW.png", width="70%", title="Location of STWs and their catchment areas")`
 .center[Location of STWs and their catchment areas]
 ]
 
-- We also include socio-demographic, land use covariates and wastewater genomic data:
-
-`r vspace("20px")`
-
+.pull-right[
+- Socio-demographic, land use covariates and wastewater genomic data:
   1. Index of Multiple Deprivation (2019)
   2. Black, Asian and Minority Ethnic (BAME) proportion (Census, 2011)
   3. Land cover (Copernicus, 2018)
@@ -289,36 +285,40 @@ there are no observations.
   5. Age structure (ONS, 2019)
   6. Percentage coverage of the SARS-CoV-2 genome in the sample
   7. Single-Nucleotide Polymorphism (SNP) data in the sample
-  
+]
+
 ---
 
 # Statistical model
 
-- Geospatial model where the latent mean concentration at monitoring site includes
-1. Covariates
-2. Regional effect
-3. Temporal trend 
-4. Spatio-temporal random effect, modelling the deviation from the national trend with correlation in space 
+The log-transformed number of gene copies per liter at catchment area $i=1, \ldots, 303$ and week $t=1,\ldots, 44$ is modelled as:
+
+$$y_{it} \sim \text{Normal}(\mu_{it}, \sigma^2_y)$$
+
+### Geospatial model on the latent mean concentration at monitoring site as a function of:
+1. covariates
+2. regional effect
+3. temporal trend
+4. spatio-temporal random effect
+
+--
 
 `r vspace("20px")`
 
-
---
-
-- Spatial prediction
+### Spatial prediction
 
 1. at the population-weighted centroids of all the 32,844 Lower Super Output Areas (LSOAs) in England 
 2. Aggregated at the Lower Tier Local Authority level 
+3. The posterior predictive distribution is used to detect increases in viral concentration over two consecutive weeks
 
 --
 
-- Bayesian approach implemented in R-INLA 
+`r vspace("20px")`
 
---
-
-- The posterior predictive distribution is used to detect increases in viral concentration over two consecutive weeks
+### Bayesian approach implemented in R-INLA 
 
 ---
+
 
 #Interactive dashboard
 To visualise these rich model outputs, we have created a dynamic and interactive dashboard
@@ -335,57 +335,24 @@ knitr::include_url("https://b-rowlingson.gitlab.io/wwatlas/", height="100%")
 # Combining wastewater viral concentration and COVID-19 prevalence
 
 .pull-left[
-- Several studies have evaluated the relationship between viral load in
-wastewater and prevalence of COVID-19 disease (e.g. Shah et al. 2022, Proverbio et al. 2022)
+- Good agreement between wastewater prediction and modelled prevalence of the disease
 
-`r vspace("20px")`
-- The relationship between viral concentration in
-wastewater and COVID-19 prevalence appears to be **complex
-and varying over both space and time.**
+- Potential for data integration
 
-`r vspace("200px")`
-.small[
-Shah et al. Wastewater surveillance to infer COVID-19 transmission: A systematic review. Science of The Total Environment 804 (2022): 150060;
-
-`r vspace("20px")`
-
-Proverbio et al. Model-based assessment of COVID-19 epidemic dynamics by wastewater analysis. Science of the Total Environment 827 (2022): 154235.]
+`r include_fig("wwprev_trends_ltla.png", width="80%")`
 ]
 
-.pull-right[`r include_fig("fig6.jpg", width="50%")`]
+.pull-right[
+We consider the use of wastewater data under the following
+setting:
+`r include_fig("WWCovid.png", width="100%")`
 
----
+###Aim 
 
-# Wastewater in the post-pandemic era to monitor COVID
-
-- Data on randomised surveys and testing become more sparse
-`r vspace("-5px")`
-$\rightarrow$ Provide information on coarse geographical resolution (e.g. regional or national)
-
-`r vspace("20px")`
-
-- Wastewater can track prevalence well and is cheaper to measure
-`r vspace("-5px")`
-$\rightarrow$ A monitoring system needs to be maintained 
-
-
---
-
-`r vspace("20px")`
-
-What data do we have (in the context of England)?
-
-<!--a. Assuming we have wastewater viral concentrations regularly measured at STWs across the country
-
-$\rightarrow$ we can use the geostatistical model to predict the LTLA weekly concentration.
-
-b. .red[LTLA weekly prevalence] estimates are only available up to a certain time point, but estimates at the weekly-coarse level remain available -->
-
-
-`r include_fig("WWCovid.png", width="60%")`
-
-.content-box-green[Can wastewater data help disaggregate coarse level prevalence to
-a finer spatial scale?
+To **integrate** the spatially granular wastewater data with prevalence
+estimates in order to downscale prevalence estimates from
+the national to a local level when only the national prevalence is
+available.
 ]
 
 ---
@@ -400,158 +367,63 @@ a finer spatial scale?
 
 --
 
+.pull-left[
 ### Coarse (national)
 \begin{align*}
-\tilde{P}_{t} &\sim \mbox{N}(\tilde{\mu}_{t},\tilde{\sigma}^2_{t})\\
-\tilde{\mu}_{t} &= \alpha + b_t + d_t \tilde{y}^{\prime}_{t}
+\mbox{logit}({P}_{t}) &\sim \mbox{N}(\mu_{t},\sigma^2_{t})\\
+\mu_{t} &= \alpha + b_t + \delta_t \tilde{y}^{\prime}_{t}
 \end{align*}
 
-where 
+to learn about
+1. the time pattern of prevalence: $b_{1:T}
+2. the national level WW - prevalence relationship: $\delta_t \tilde{y}^{\prime}_{t}$ 
 
-- $\tilde{P}_{t}$ and $\tilde{\sigma}^2_{t}$ are posterior mean and variance of the national aggregation of the prevalence (population weighted)
-- $\tilde{y}^{\prime}_{t}$ is a similar aggregation for wastewater concentration
-
-`r vspace("20px")`
-
-- $b_t$ is modelled using a RW1
-- $d_t$ is modelled using a RW2
-
-`r vspace("80px")`
-
-.small[Nicholson et al. Local prevalence of transmissible SARS-CoV-2 infection: an integrative causal model for debiasing fine-scale targeted testing data, Nature Microbiology 7 (2022): 97–107.]
-
----
-
-# Modelling framework
-
-- Coarse (national) and local (LTLA) models jointly fitted
-
-- Wastewater predictions available from the geostatistical model
-
-- Posterior distribution of COVID-19 prevalence oobtained through Nicholson et al. (2022) 
-
---
-
-### Local
-\begin{align*}
-p_{lt} &\sim \mbox{N}(\mu_{lt},\sigma^2_{lt})\\
-\mu_{lt} &= (\alpha + u_l) + (b_t + v_{lt}) + (d_t + m_l)y^{\prime}_{lt}\\
-\bm{y}^{\prime}_{t} &\sim \mbox{MVN}(\bm{g}_t, \bm{S}_t)
-\end{align*}
-
-where 
-
-- $p_{lt}$ and $\sigma^2_{lt}$ are posterior mean and variance of the COVID-19 prevalence 
-- $\bm{g}_t$ and $\bm{S}_t$ are the posterior mean and covariance matrix from the wastewater model
-- $u_{l}$, $v_{lt}, m_l$ are modelled as exchangeable
-
-`r vspace("80px")`
-
-.small[Nicholson et al. Local prevalence of transmissible SARS-CoV-2 infection: an integrative causal model for debiasing fine-scale targeted testing data, Nature Microbiology 7 (2022): 97–107.]
-
----
-
-# Implementation
-
-- Both the local and national components are jointly fitted
-
-- Alternative models: 
-
-1\. No wastewater
-
-`r vspace("10px")`
-$\rightarrow$ temporal trend for the coarse level model $\tilde{\mu}_{t} = \alpha + b_t + d_t$
-`r vspace("10px")`
-$\rightarrow$ spatial and temporal trend for the local level model $\mu_{lt} = (\alpha + u_l) + (b_t + v_{lt})$
-
-`r vspace("30px")`
-
-2\. No temporal varying coefficients
-`r vspace("10px")`
-$\rightarrow$ linear relationship with wastewater $\tilde{\mu}_{t} = \alpha + b_t + d \tilde{y}^{\prime}_{t}$
-`r vspace("10px")`
-$\rightarrow$ spatial-varying coefficient for wastewater $\mu_{lt} = (\alpha + u_l) + (b_t + v_{lt}) + (d + m_l)y^{\prime}_{lt}$
-
---
-
-`r vspace("30px")`
-
-- *Study period*: 40 weeks
-
-- **Training window**: first 20 weeks (.red[LTLA + national weekly prevalence] + .blue[LTLA + national weekly wastewater])
-
-- **Disaggregation window**: subsequent 5/10/15/20 weeks (.red[national weekly prevalence] + .blue[LTLA + national weekly wastewater])
-
----
-
-# Results
-
-.pull-left[`r include_fig("Results.png", width="200%")`
+Both are modelled using autoregressive structures
 ]
 
 .pull-right[
-- Using wastewater data helps to improve the quality of the disaggregated LTLA prevalence (lower RMSE and better coverage) consistently across all disaggregation horizons.
+### Local
+\begin{align*}
+\mbox{logit}(p_{lt}) &\sim \mbox{N}(\mu_{lt},\sigma^2_{lt})\\
+\mu_{lt} &= (\alpha + u_l) + (b_t + v_{lt}) + (d_t + m_l)y^{\prime}_{lt}\\
+\end{align*}
 
-- Not large difference between the model 2 and model 3
-
-- Some geographical variation
-
-]
-
-`r vspace("-20px")`
-`r include_fig("Boxplot.png", width="80%")`
+to learn about
+1. the local departure from the national trend of prevalence $v_{lt}\sim N(0,\sigma^2_v)$
+2. the local departure from the  WW-prevalence relationship $m_l \sim N(0,\sigma^2_m)$
+ ]
 
 
 ---
 
-# Results
+# Added values of WW: more accurate, less uncertain nowcasts
 
-.pull-left[`r vspace("40px")`
-`r include_fig("Heatmap.png", width="100%")`
+.pull-left[`r include_fig("Nowcast.jpg", width="80%")`
 ]
 
+.pull-right[
+- Using wastewater data helps to improve the quality of the disaggregated LTLA prevalence (lower RMSE and better coverage).
 
-.pull-right[`r vspace("5px")`
-`r include_fig("Scatterplot.png", width="80%")`
+`r vspace("30px")`
+`r include_fig("RMSE.jpg", width="120%")`
 ]
-
-$\rightarrow$ Some periods (e.g. Christmas are showing larger differences)
-
-$\rightarrow$ Some areas are consistently underestimated/overestimated
 
 ---
 
-# Discussion
+# Take home message
 
-- Relationship with disease is not trivial. In a descriptive way we found a spatial and temporal dynamicity and evidence of non-linearity. It could depend on several factors like vaccination, variants and metereology.
+- The proposed framework for disaggregation demonstrates the added-value of wastewater data to inform local prevalence of COVID
 
---
+- Example of .red[modular] integration of environmental and disease data  
 
-`r vspace("20px")`
+.pull-left[
+- Currently being extended to include other data sources, such as syndromic and secondary care data, to enable quantitatively accurate monitoring of disease evolution across a population.
+]
 
-- The proposed framework for disaggregation demonstrates the added-value of wastewater data to inform local prevalence
+.pull-right[
+`r include_fig("Surveillance_representation.jpg", width="80%")`
+]
 
-$\rightarrow$ Continuous running of randomised surveys at a reduced capacity to provide coarse prevalence estimates remains a key pillar in COVID monitoring, anchoring the disaggregation and the relationship
-
---
-
-`r vspace("20px")`
-
-- The wastewater-prevalence relationship seems stable in time over the study period but will likely need to be recalibrated over longer times
-
-$\rightarrow$ occasional running of randomised surveys at a fine spatial scale is required
-
-`r vspace("10px")`
-
-$\rightarrow$ impact on the results will need to be evaluated
-
---
-
-`r vspace("20px")`
-
-- Starting point but a long way to go
-
-$\rightarrow$ should be extended to include other data sources, such as syndromic and secondary care data, to enable quantitatively accurate monitoring of disease evolution across a population.
 
 ---
 
@@ -876,27 +748,22 @@ $\rightarrow$ transferability
 
 ---
 
+# Other areas of work
+
+- Evaluating the impact of short and long term aircraft noise on cardiovascular hospitalisation and mortality
+
+- Modelling excess mortality at subnational level across different countries, to estimate the impact of extreme events (e.g. heat, COVID, policies)
+
+- Diabetes...
+
+- Apportioning particulate matter into sources using Bayesian parametric and non parametric models to evaluate the effects on cardio-respiratory healths in children and elderly
+
+
+
+---
 # Acknowledgments
 
-.pull-left[
-.red[Temperature and COPD:]
-
-`r include_fig("MRClogo.png", width="60%")`
-
-**Garyfallos Konstantinoudis**, **Cosetta Minelli** (ICL)
-
-**Antonio Gasparrini** (LSHTM)
-
-**Ana Maria Vicedo Cabrera** (University of Bern)
-
-**Joan Ballester** (ISGlobal)
-
-]
-
-.pull-right[
 .red[Wastewater based epidemiology:]
-
-`r include_fig("Turing.png", width="70%")`
 
 **Guangquan Li** (Northumbria University)
 
@@ -912,4 +779,21 @@ $\rightarrow$ transferability
 
 **Matt Wade**, **Hubert Denise**, **William Rowe**, **Daniel James**, **Jasmine Grimsley** (UKHSA)
 
-]
+`r vspace("20px")`
+
+.red[Temperature and COPD:]
+
+**Cosetta Minelli** (ICL)
+
+**Antonio Gasparrini** (LSHTM)
+
+**Ana Maria Vicedo Cabrera** (University of Bern)
+
+**Joan Ballester** (ISGlobal)
+
+---
+
+# Links to papers and code
+
+
+
