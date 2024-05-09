@@ -37,6 +37,7 @@ options(width = 999)
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
                       cache = FALSE, tidy = FALSE, size = "small")
 ```
+
 ```{r echo=F,message=FALSE,warning=FALSE,comment=NA}
 # Sources the R file with all the relevant setup and commands
 source("assets/setup.R")
@@ -51,7 +52,7 @@ xaringanExtra::use_panelset()
 #xaringanExtra::use_freezeframe()
 
 # Defines the path to the file with the .bib entries (in case there are references)
-bibfile=RefManageR::ReadBib("C:/users/magb/Dropbox/Conferences-Talks/EMS2023/refs.bib",check = FALSE)
+bibfile=RefManageR::ReadBib("refs.bib",check = FALSE)
 ```
 class: title-slide
 
@@ -442,13 +443,20 @@ name: COPD
 .panelset[
 .panel[.panel-name[COPD]
 
-`r include_fig("COPD_lung.png",width="60%")`
-
+.pull-left[
+- 3rd cause of death, 3.17 million deaths in 2015 globally
+`r vspace("20px")`
 - In England, 115,000 emergency admissions and 24,000 deaths per year.
 `r vspace("20px")`
 - COPD exacerbations: Bacteria, viruses and air-pollution.
 `r vspace("20px")`
 - The role of temperature is unclear. 
+]
+
+.pull-right[
+
+`r include_fig("COPD_HES.jpg", width="80%")`
+]
 
 ]
 
@@ -460,6 +468,9 @@ name: COPD
 - Cold, dry air or hot air can trigger a flare-up.
 `r vspace("20px")`
 - Different confounding, different lags across different temperatures.
+`r vspace("20px")`
+- This study focuses on warm temperatures.
+
 ]
 
 .pull-right[
@@ -469,6 +480,35 @@ name: COPD
 
 ]
 ]
+
+---
+
+# Previous studies
+
+```{r lit-table}
+library(kableExtra)
+library(dplyr)
+
+Authors <- c("Michelozzi et al 2009","Anderson et al 2013","Zhapo et al 2019")
+Aggregation <- c("city and daily","county and daily","individual")
+Country <- c("EU","US","Brazil")
+Pollutants <- c("NO2, O3", "O3, PM10, PM2.5", "no adjustment")
+Effect <- c("2.1 (0.6 to 3.6) per 1oC", "2.0 (0.4 to 4.5) per 10oF", "5.0 (4.0 to 6.0) per 5oC")
+
+
+df<- data.frame(Authors, Aggregation, Country, Pollutants, Effect)
+df %>% 
+  kbl() %>% 
+  kable_material(c("striped", "hover"))
+```
+
+
+- Spatial and temporal aggregation
+  - Exposure varies on high resolution
+  - Insufficient adjustment for confounding
+  - Ecological bias.
+`r vspace("20px")`
+- One study individual data, but did not account for air-pollution
 
 ---
 
@@ -754,7 +794,7 @@ $\rightarrow$ transferability
 
 - Modelling excess mortality at subnational level across different countries, to estimate the impact of extreme events (e.g. heat, COVID, policies)
 
-- Diabetes...
+- Examine heat related vulnerabilities in people living with diabetes (ICRF grant)
 
 - Apportioning particulate matter into sources using Bayesian parametric and non parametric models to evaluate the effects on cardio-respiratory healths in children and elderly
 
