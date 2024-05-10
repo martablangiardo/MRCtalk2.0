@@ -117,25 +117,7 @@ pre code {
 
 # Data/modelling/challenges in environmental epidemiology
 
-`r include_fig("Areas.png",width="60%")`
-
-`r vspace("20px")`
-
---
-
-Study designs typically used:
-`r vspace("10px")`
-  1. Cohort studies - Focus on long-term effects (individual data)
-`r vspace("10px")`
-  2. Small area studies - Focus on long-term effects (aggregated data)
-`r vspace("10px")`
-  3. Time-series studies - Focus on short-term effects (aggregated data)
-
-DO WE WANT TO PUT SOMETHING ON SEMI-ECOLOGICAL STUDIES TOO?
- 
-`r vspace("10px")`
-
-.center[.red[.large[Spatial and temporal dependencies are key.]]]
+`r include_fig("Areas.png",width="80%")`
 
 ---
 
@@ -394,6 +376,7 @@ to learn about
 2. the local departure from the  WW-prevalence relationship $m_l \sim N(0,\sigma^2_m)$
  ]
 
+.small[Nicholson, George, et al. "Improving local prevalence estimates of SARS-CoV-2 infections using a causal debiasing framework." Nature Microbiology 7.1 (2022): 97-107.]
 
 ---
 
@@ -415,9 +398,15 @@ to learn about
 
 - The proposed framework for disaggregation demonstrates the added-value of wastewater data to inform local prevalence of COVID
 
+`r vspace("20px")`
+
 - Example of .red[modular] integration of environmental and disease data  
 
+
+
 .pull-left[
+`r vspace("20px")`
+
 - Currently being extended to include other data sources, such as syndromic and secondary care data, to enable quantitatively accurate monitoring of disease evolution across a population.
 ]
 
@@ -737,7 +726,7 @@ where $N_s$ and $n_s$ are the total number of hospitalisations and those at days
 
 ---
 
-# Discussion
+# Take home message
 
 - Spatial case-crossover model allows to take advantage of individual level data when the individual level confounders are not available (as long as they do not change quickly in time)
 
@@ -790,15 +779,21 @@ $\rightarrow$ transferability
 
 # Other areas of work
 
+`r vspace("20px")`
+
 - Evaluating the impact of short and long term aircraft noise on cardiovascular hospitalisation and mortality
+
+`r vspace("20px")`
 
 - Modelling excess mortality at subnational level across different countries, to estimate the impact of extreme events (e.g. heat, COVID, policies)
 
+`r vspace("20px")`
+
 - Examine heat related vulnerabilities in people living with diabetes (ICRF grant)
 
+`r vspace("20px")`
+
 - Apportioning particulate matter into sources using Bayesian parametric and non parametric models to evaluate the effects on cardio-respiratory healths in children and elderly
-
-
 
 ---
 # Acknowledgments
@@ -835,5 +830,7 @@ $\rightarrow$ transferability
 
 # Links to papers and code
 
+- Li G., Diggle P., Blangiardo M. **Integrating wastewater and randomised prevalence survey data for national COVID surveillance**, *Scientific Reports*, 14(5124), 2024; code:[https://github.com/gqlNU/wwprev](https://github.com/gqlNU/wwprev)
 
+- Li G. et al, **A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic**, *Environment International*, 172(107765), 2023; code:[https://github.com/gqlNU/publicWW/](https://github.com/gqlNU/publicWW/)
 
