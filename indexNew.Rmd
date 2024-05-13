@@ -390,9 +390,6 @@ name: COPD
 ---
 
 # COPD and temperature
-.panelset[
-.panel[.panel-name[COPD]
-
 .pull-left[
 - 3rd cause of death, 3.17 million deaths in 2015 globally
 `r vspace("20px")`
@@ -408,10 +405,9 @@ name: COPD
 `r include_fig("COPD_HES.jpg", width="80%")`
 ]
 
-]
+---
 
-.panel[.panel-name[Temperature and Health]
-
+# Temperature and Health
 .pull-left[
 - Typically U-shaped relationship between temperature and mortality.
 `r vspace("20px")`
@@ -421,6 +417,16 @@ name: COPD
 `r vspace("20px")`
 - This study focuses on warm temperatures.
 
+`r vspace("30px")`
+.center[.content-box-green[Warm temperatures and COPD hospitalizations.]]
+
+Secondary objectives:
+`r vspace("20px")`
+- Examine effect modification by age, sex and space.
+`r vspace("20px")`
+- Assess how contextual characteristics, such as green space, average temperature, deprivation and urbanicity affect population vulnerability. 
+`r vspace("20px")`
+- Calculate the number of COPD cases attributable to temperature.
 ]
 
 .pull-right[
@@ -428,11 +434,11 @@ name: COPD
 `r include_fig("TemperatureHealth.png")`
 ]
 
-]
-]
+
 
 ---
 
+<!--
 # Previous studies
 
 ```{r lit-table}
@@ -459,25 +465,7 @@ df %>%
   - Ecological bias.
 `r vspace("20px")`
 - One study individual data, but did not account for air-pollution
-
----
-
-# Aim
-
-`r vspace("30px")`
-.center[.content-box-green[Examine the effect of warm temperatures on COPD hospitalizations.]]
-
-`r vspace("30px")`
-
-Secondary objectives:
-`r vspace("20px")`
-- Examine effect modification by age, sex and space.
-`r vspace("20px")`
-- Assess how contextual characteristics, such as green space, average temperature, deprivation and urbanicity affect population vulnerability. 
-`r vspace("20px")`
-- Calculate the number of COPD cases attributable to temperature.
-
----
+-->
 
 # Outcome and exposure
 
@@ -508,9 +496,12 @@ Secondary objectives:
 
 `r include_fig("FigCaseCrossOver.png", width="70%")`
 
-- Adding a spatial dimension to account for modifiers
+- Account for air-pollution, national holidays and relative humidity
+`r vspace("20px")` 
+
 ---
 
+<!--
 # Confouders and spatial effect modifiers
 
 .panelset[
@@ -537,7 +528,7 @@ df %>%
 ]
 ]
 
----
+
 
 # Step 1: Find the linear threshold
 
@@ -552,13 +543,13 @@ u_j &\sim N(0, 100)\\
 
 $c$ is the temperature threshold,  $50-$th, $55-$th, ...,  $90-$th,  $95-$th percentile. 
 
---
+
 
 `r vspace("20px")`
 
 We ran the above model for the different temperature thresholds and chose the one which minimises the WAIC.
 
----
+
 
 # Step 2a: Effect modification by age and sex
   
@@ -571,7 +562,6 @@ u_j &\sim N(0, 100)\\
 \alpha_1, \alpha_2, \beta_1, \dots \beta_4 & \sim N(0, 1)\\
 \end{align*}
 
----
 
 # Step 2b. Spatial Effect modification
 .pull-left[    
@@ -600,48 +590,52 @@ where $\bm{H}_s$ is a vector of the following covariates at the Lower Tier Local
 .small[
 Konstantinoudis et al., Asthma hospitalisations and heat exposure in England: a case–crossover study during 2002–2019, Thorax (2023), in press.
 ]
+-->
+
+# Statistical analysis
+
+.pull-left[
+- Step 1: Linear threshold model
+`r vspace("20px")`    
+- Step 2: Age and sex effect modification
+`r vspace("20px")`    
+- Step 3: Spatial effect modification
+
+`r include_fig("SpatEffMod_mod.png", width="100%")`
+]
+
+
+.pull-right[
+
+`r include_fig("TemperatureHealth_0.png", width="80%")`
+]
+
+--
+- Average temperature
+- Urbanicity
+- Deprivation
+- Green space
 
 ---
 
+
 # Results
 
-.panelset[.panel[.panel-name[Threshold selection and effect modification]
-
 - In the adjusted model, the 80th percentile of the temperature (23.2C) was the threshold minimising the WAIC
-
+`r vspace("30px")`
 - The increase in the COPD hospitalisation risk for every 1°C increase in temperatures above 23.2C was 0.47% (95% CrI 0.16% to 0.75%) 
 
 
-.pull-left[
+`r include_fig("ConfoundersRR.jpg", width="80%")`
 
-`r vspace("30px")`
-Effect modification by age and sex: 
+---
 
-- unadjusted models show increased risk which substantially reduces when the confounders are included
-`r vspace("15px")`
-- Evidence of an increased risk for females above 65 years old
-]
-
-.pull-right[
-`r include_fig("ConfoundersRR.jpg", width="100%")`
-]
-]
-
-.panel[.panel-name[Spatial effect modifiers]
-
-.pull-left[
-`r include_fig("SVC.png", width="100%")`
-
-`r include_fig("SVC_adj.png", width="100%")`
-
-]
-
-.pull-right[
+# Spatial effect modifiers
 
 - Evidence of spatial variation
 `r vspace("30px")`
-- Not enough evidence of effects of the covariates in explaining the spatial variation
 
+<!--
 ```{r res-tables}
 library(kableExtra)
 Modifier<- c("Urban","Avg Temp")
@@ -653,55 +647,49 @@ df %>%
   kbl() %>% 
   kable_material(c("striped", "hover"))
 ```
-]
-]
-]
+-->
 
+`r include_fig("SVC.png", width="80%")`
+
+--
+
+- Not enough evidence of effects of the covariates in explaining the spatial variation
 ---
 
 # Population Attributable Fraction (PAF)
 
-- Typically used in epidemiological studies to evaluate the number of health end points which happened due to the exposure/risk factor.
-
 .pull-left[
-- Generally estimated over the entire study region
-
-- Here we used the model with spatially-varying coefficients to estimate a local PAF using the following three steps
-
-1. Obtain the cumulative exposure-outcome relative risk $\text{RR}_s = \exp\big(\alpha_{2s}(X_{1, s, \text{max}} - c^*)\big)$
-2. Calculate $\text{AF}_s = (\text{RR}_s - 1)/\text{RR}_s$
-
-3. Then $\text{PAF}_s = \text{AF}_s (n_s/N_s)$
-
-where $N_s$ and $n_s$ are the total number of hospitalisations and those at days above 23.2C 
+- Overall 7.8% (95% CrI 6.7% to 8.8%) of the total COPD hospitalisations in summer (2007-2019) are due to temperature above 23.2C
+`r vspace("30px")`
+- Clear spatial structure (more than 8% in East Midlands, East of England, London and South East, while it is below 5% in the South West).
 ]
 
 .pull-right[
 
-`r include_fig("PAF.jpg", width="70%")`
-
-- Overall 7.8% (95% CrI 6.7% to 8.8%) of the total COPD hospitalisations in summer (2007-2019) are due to temperature above 23.2C
-- Clear spatial structure (more than 8% in East Midlands, East of England, London and South East, while it is below 5% in the South West).
+`r include_fig("PAF.jpg", width="100%")`
 
 ]
 
 ---
 
-# Take home message
+# Summary of the results
 
-- Spatial case-crossover model allows to take advantage of individual level data when the individual level confounders are not available (as long as they do not change quickly in time)
+- 1.46% (1.19%, 1.71%) for every 1oC increase in warm temperatures.
 
-`r vspace("20px")`
-
-- Extended to investigate spatially effect modifiers (could be done for temporal effect modifiers too)
 
 `r vspace("20px")`
 
-- Computationally intensive
+- Adjusting for air-pollution weakens evidence of an effect.
+
 
 `r vspace("20px")`
 
-- Evidence that COPD hospitalisations increase with warmer temperatures and as temperatures consistently increase, public health systems should be alerted and prepared to challenge the increased COPD hospitalisation burden. 
+- Weak evidence of an effect modification by sex and age, whereas strong spatial component.
+
+`r vspace("20px")`
+
+.center[.large[Evidence that COPD hospitalisations increase with warmer temperatures and as temperatures consistently increase, public health systems should be alerted and prepared to challenge the increased COPD hospitalisation burden. ]]
+
 
 ---
 # General remarks
@@ -792,6 +780,14 @@ $\rightarrow$ transferability
 # Links to papers and code
 
 - Li G., Diggle P., Blangiardo M. **Integrating wastewater and randomised prevalence survey data for national COVID surveillance**, *Scientific Reports*, 14(5124), 2024; code:[https://github.com/gqlNU/wwprev](https://github.com/gqlNU/wwprev)
+`r vspace("20px")`
 
 - Li G. et al, **A spatio-temporal framework for modelling wastewater concentration during the COVID-19 pandemic**, *Environment International*, 172(107765), 2023; code:[https://github.com/gqlNU/publicWW/](https://github.com/gqlNU/publicWW/)
+`r vspace("20px")`
+
+- Konstantinoudis G. et al, **Asthma hospitalisations and heat exposure in England: a case–crossover study during 2002–2019**, *Thorax*, 78(9), 2023; code:[https://github.com/gkonstantinoudis/asthma_temperature](https://github.com/gkonstantinoudis/asthma_temperature)
+`r vspace("20px")`
+
+- Konstantinoudis G.. et al, **Ambient heat exposure and COPD hospitalisations in England: a nationwide case-crossover study during 2007-2018**, *Thorax*, 77(11), 2022; code:[https://github.com/gkonstantinoudis/COPDTempSVC](https://github.com/gkonstantinoudis/COPDTempSVC)
+
 
