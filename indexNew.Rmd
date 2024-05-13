@@ -158,9 +158,9 @@ $\rightarrow$ Spatial / time series regression.
 In this talk we are going to focus on
 
 `r vspace("10px")`
-  - Wastewater modelling and COVID-19 prevalence (space-time geostatistical model; uncertainty propagation; data integration)
+  - Wastewater modelling and COVID-19 prevalence
 `r vspace("10px")`
-  - Temperature and COPD hospitalisations (semi-ecological study; space-time effect; non linear dose-response)
+  - Temperature and COPD hospitalisations
 
 ---
 
@@ -190,33 +190,6 @@ chemical analysis of wastewater samples as the primary outcome measure]]]
   - no selection bias
   - cheap
 
-- Wastewater based epidemiology started as a way to use wastewater to estimate exposure to chemicals in the population
-
-  - Illicit drugs, psychoactive substances
-  - Pesticides and other endocrine disruptors
-  - Bacteria, viruses, fungi
-  
-Success stories:
-
-  - retrospective prediction of outbreaks like hepatitis A and norovirus
-  - polio - WHO guidelines for monitoring polio includes wastewater
-  
-
----
-
-# How does it work 
-
-`r vspace("50px")`
-
-`r include_fig("WW.png",width="100%", title="")`
-
----
-
-
-# Wastewater during the COVID-19 pandemic
-
-- WBE has been recognised as an economically efficient approach for disease surveillance `r Cite(bibfile,"manuel2022strengthening")`
-
 - Methods to detect the presence of SARS-CoV-2 RNA in wastewater have
 been developed in a number of countries `r Cite(bibfile,"tlhagale2022establishment")`
 
@@ -227,26 +200,19 @@ measurements of SARS-CoV-2 RNA from wastewater are obtained.
 spatially resolved model to estimate wastewater viral
 concentration over a spatially continuous domain.
 
-`r vspace("60px")`
---
+---
 
-## Aim
+# How does it work 
 
-- Develop a statistical model to estimate viral concentration in wastewater at fine spatio-temporal resolutions covering the whole of England
+`r vspace("10px")`
+`r include_fig("WW.png",width="80%", title="")`
 
---
+### Aim
 
-`r vspace("20px")`
+- Develop a statistical model to estimate viral concentration in wastewater at fine spatio-temporal resolution covering the whole of England
+`r vspace("10px")`
+- Use the spatial dependence to **predict** values of the spatial surface (together with associated uncertainty) at locations where there are no observations.
 
-- We want to reconstruct a latent spatial (temporal) surface $\mathbf{S}$ from a finite set of noisy observations and their spatial (temporal) location.
-
---
-
-`r vspace("20px")`
-
-- Use the spatial dependence to **predict** values of the spatial
-surface (together with associated uncertainty) at locations where
-there are no observations.
 
 ---
 
@@ -317,18 +283,11 @@ knitr::include_url("https://b-rowlingson.gitlab.io/wwatlas/", height="100%")
 
 # Combining wastewater viral concentration and COVID-19 prevalence
 
-.pull-left[
-- Good agreement between wastewater prediction and modelled prevalence of the disease
-
-- Potential for data integration
-
-`r include_fig("wwprev_trends_ltla.png", width="80%")`
-]
-
-.pull-right[
 We consider the use of wastewater data under the following
 setting:
-`r include_fig("WWCovid.png", width="100%")`
+`r include_fig("WWCovid.png", width="70%")`
+
+`r vspace("20px")`
 
 ###Aim 
 
@@ -336,7 +295,7 @@ To **integrate** the spatially granular wastewater data with prevalence
 estimates in order to downscale prevalence estimates from
 the national to a local level when only the national prevalence is
 available.
-]
+
 
 ---
 
@@ -358,7 +317,7 @@ available.
 \end{align*}
 
 to learn about
-1. the time pattern of prevalence: $b_{1:T}
+1. the time pattern of prevalence: $b_{1:T}$
 2. the national level WW - prevalence relationship: $\delta_t \tilde{y}^{\prime}_{t}$ 
 
 Both are modelled using autoregressive structures
@@ -376,7 +335,9 @@ to learn about
 2. the local departure from the  WW-prevalence relationship $m_l \sim N(0,\sigma^2_m)$
  ]
 
-.small[Nicholson, George, et al. "Improving local prevalence estimates of SARS-CoV-2 infections using a causal debiasing framework." Nature Microbiology 7.1 (2022): 97-107.]
+`r vspace("20px")`
+
+.small[Nicholson, G, et al. "Improving local prevalence estimates of SARS-CoV-2 infections using a causal debiasing framework." Nature Microbiology 7.1 (2022): 97-107.]
 
 ---
 
