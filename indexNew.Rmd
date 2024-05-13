@@ -788,6 +788,6 @@ $\rightarrow$ transferability
 - Konstantinoudis G. et al, **Asthma hospitalisations and heat exposure in England: a case–crossover study during 2002–2019**, *Thorax*, 78(9), 2023; code:[https://github.com/gkonstantinoudis/asthma_temperature](https://github.com/gkonstantinoudis/asthma_temperature)
 `r vspace("20px")`
 
-- Konstantinoudis G.. et al, **Ambient heat exposure and COPD hospitalisations in England: a nationwide case-crossover study during 2007-2018**, *Thorax*, 77(11), 2022; code:[https://github.com/gkonstantinoudis/COPDTempSVC](https://github.com/gkonstantinoudis/COPDTempSVC)
+- Konstantinoudis G. et al, **Ambient heat exposure and COPD hospitalisations in England: a nationwide case-crossover study during 2007-2018**, *Thorax*, 77(11), 2022; code:[https://github.com/gkonstantinoudis/COPDTempSVC](https://github.com/gkonstantinoudis/COPDTempSVC)
 
 
