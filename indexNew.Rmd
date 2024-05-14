@@ -414,11 +414,14 @@ name: COPD
 - Cold, dry air or hot air can trigger a flare-up.
 `r vspace("20px")`
 - Different confounding, different lags across different temperatures.
-`r vspace("20px")`
-- This study focuses on warm temperatures.
 
 `r vspace("30px")`
-.center[.content-box-green[Warm temperatures and COPD hospitalizations.]]
+
+.center[.content-box-green[Aim: To evaluate the effect of warm temperatures and COPD hospitalizations.
+]
+]
+
+`r vspace("30px")`
 
 Secondary objectives:
 `r vspace("20px")`
